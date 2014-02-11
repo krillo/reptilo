@@ -90,7 +90,6 @@ function rep_get_header_home() {
 
 
 include_once "bin/reptilo_utils.php";
-include_once "bin/reptilo_carousel.php";
 include_once "bin/dimox_bootstrap_breadcrumbs.php";
 require_once "bin/wp-bootstrap-navwalker.php";
 

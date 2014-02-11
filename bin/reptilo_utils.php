@@ -113,44 +113,7 @@ MSG;
   die(); // this is required to return a proper result
 }
 
-/**
- * Custom post type - FAQ 
- */
-function create_faq() {
-  $labels = array(
-      'name' => 'FAQ',
-      'singular_name' => 'FAQ',
-      'add_new' => 'Lägg till ny FAQ',
-      'add_new_item' => 'Lägg till ny FAQ',
-      'edit_item' => 'Redigera FAQ',
-      'new_item' => 'Ny FAQ',
-      'all_items' => 'Alla FAQn',
-      'view_item' => 'Visa FAQ',
-      'search_items' => 'Sök FAQ',
-      'not_found' => 'Inga FAQn hittade',
-      'not_found_in_trash' => 'Inga FAQn hittade i soptunnan',
-      'parent_item_colon' => '',
-      'menu_name' => 'FAQ'
-  );
 
-  $args = array(
-      'labels' => $labels,
-      'public' => true,
-      'publicly_queryable' => true,
-      'show_ui' => true,
-      'show_in_menu' => true,
-      'query_var' => true,
-      'rewrite' => array('slug' => 'faq'),
-      'capability_type' => 'post',
-      'has_archive' => true,
-      'hierarchical' => false,
-      'menu_position' => null,
-      'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt') //, 'comments' )
-  );
-  register_post_type('faq', $args);
-}
-
-add_action('init', 'create_faq');
 
 /**
  * Pagination Bootstrap 3 style
