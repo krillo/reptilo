@@ -209,7 +209,7 @@ function rep_page_hierarchy() {
     $out .= $ul;
     $out .= '</div>';
   }
-  $out .= '<div class="rep-forefather"><a href="/faq/" class="'.$faqstyle.'">FAQ</a></div>';
+  //$out .= '<div class="rep-forefather"><a href="/faq/" class="'.$faqstyle.'">FAQ</a></div>';
   $out .= '</div>';
   echo $out;
 }
