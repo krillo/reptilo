@@ -1,11 +1,10 @@
 <?php
+
 /**
  * This is the ReptiloCarousel.
  * To initialize it you just have to include this php-file
  */
 $rc = new ReptiloCarousel;
-
-
 
 /**
  * The ReptiloCarousel class is based on Bootstrap 3.0 
@@ -42,6 +41,7 @@ class ReptiloCarousel {
 
   /**
    * This method prints the carousel
+   * To add a url to the images then add a field (ACF) named url
    * 
    * @global Post $post
    * @param string $carousel_id - this string is added att the id och the containing div
@@ -57,13 +57,17 @@ class ReptiloCarousel {
     $active = 'active';
     if ($loop->have_posts()):
       while ($loop->have_posts()) : $loop->the_post();
+        $url = '#';
+        if (function_exists(get_field)) {
+          $url = get_field('url');
+        }
         if ($i != 0) {
           $active = '';
         }
         if ($indicators) {
           $li .= '<li data-target="#' . $carousel_id . '" data-slide-to="' . $i . '" class="' . $active . '"></li>';
         }
-        $img .= '<div class="item ' . $active . '">' . get_the_post_thumbnail() . '</div>';
+        $img .= '<div class="item ' . $active . '"><a href="'.$url.'">' . get_the_post_thumbnail() . '</a></div>';
         $i++;
       endwhile;
       $carousel = <<<CAROUSEL
