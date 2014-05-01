@@ -47,11 +47,12 @@ class ReptiloCarousel {
    * @param string $carousel_id - this string is added att the id och the containing div
    * @param boolean $indicators - set this to true to show indicators  
    */
-  function rep_carousel($carousel_id, $indicators = true) {
+  function rep_carousel($carousel_id, $indicators = true, $arrows = true) {
     global $post;
     $args = array('post_type' => 'Slideshow', 'posts_per_page' => 16);
     $loop = new WP_Query($args);
-    $li = '';
+    $indicator = '';
+    $arrow = '';
     $img = '';
     $i = 0;
     $active = 'active';
@@ -65,21 +66,26 @@ class ReptiloCarousel {
           $active = '';
         }
         if ($indicators) {
-          $li .= '<li data-target="#' . $carousel_id . '" data-slide-to="' . $i . '" class="' . $active . '"></li>';
+          $indicator .= '<li data-target="#' . $carousel_id . '" data-slide-to="' . $i . '" class="' . $active . '"></li>';
         }
         $img .= '<div class="item ' . $active . '"><a href="'.$url.'">' . get_the_post_thumbnail() . '</a></div>';
+        if($arrows){
+          $arrow .= '<a class="left carousel-control" href="#' . $carousel_id . '" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#' . $carousel_id . '" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>';
+        }
         $i++;
       endwhile;
       $carousel = <<<CAROUSEL
   <div id="$carousel_id" class="carousel slide" data-ride="carousel">
     <!-- Indicators -->
     <ol class="carousel-indicators">
-      $li
+      $indicator
+    </li>
     </ol>
     <!-- Wrapper for slides -->
     <div class="carousel-inner">
       $img
-    </div> 
+    </div>
+    $arrow
   </div>
 CAROUSEL;
     endif;
