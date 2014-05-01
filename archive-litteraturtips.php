@@ -15,7 +15,7 @@
               </header>
               <?php if ( has_post_thumbnail() ): the_post_thumbnail(); endif; ?>
               <div class="archive-content"><?php the_excerpt(); ?>
-                <a href="<?php the_guid(); ?>"> Läs mer &raquo;</a>
+                <a href="<?php echo get_permalink(); ?>"> Läs mer &raquo;</a>
               </div>
             </article>
           </div>

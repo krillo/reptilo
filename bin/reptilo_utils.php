@@ -56,7 +56,7 @@ function printPostsPerCat($category = 'aktuellt', $nbr = 1){//, $nbrDigits = 100
       //$content = mb_substr(get_the_content(), 0, $nbrDigits) . '...';
       $content = get_the_excerpt();
       $title = get_the_title();
-      $guid = get_the_guid();
+      $guid = get_permalink();
       $img = '';
       if (has_post_thumbnail()){
         $img = get_the_post_thumbnail(null, 'thumbnail');

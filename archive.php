@@ -15,7 +15,7 @@
                 <div class="pub-info"><i class="fa fa-calendar"></i><time pubdate="pubdate"><?php the_modified_date(); ?></time> | <?php the_category(', '); ?></div>
               </header>
               <div class="archive-content"><?php the_excerpt(); ?>
-                <a href="<?php the_guid(); ?>"> Läs mer &raquo;</a>
+                <a href="<?php echo get_permalink(); ?>"> Läs mer &raquo;</a>
               </div>
             </article>
           </div>
