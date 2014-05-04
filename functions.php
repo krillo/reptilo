@@ -78,7 +78,18 @@ function rep_get_header_home() {
 
 
 
-
+/**
+ * Return just one category link from the list 
+ * @return type
+ */
+function rep_GetOneCategory(){
+  $categorys = get_the_category_list( ', ');
+  $i = strpos($categorys, ', ');
+  if($i > 0 ){
+    $categorys = substr($categorys, 0, $i);
+  }
+  return $categorys;
+}
 
 
 
