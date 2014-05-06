@@ -151,7 +151,7 @@ class Litteraturtips {
     }
   }
 
-  function printLitteraturtips($posttype = 'litteraturtips', $nbr = 5, $random = false, $nbrDigits = 40, $echo = true) {
+  function printLitteraturtips($posttype = 'litteraturtips', $nbr = 5, $random = false, $nbrDigits = 35, $echo = true) {
     global $post;
     $args = array('post_type' => $posttype, 'posts_per_page' => $nbr);
     if ($random) {
@@ -168,9 +168,9 @@ class Litteraturtips {
         }
         $i++;
         $img = wp_get_attachment_image(get_field('bild'), 'bokomslag');
-        $title = mb_substr(get_the_title(), 0, 32) . '..';
-        $author = mb_substr(get_field('forfattare'), 0, 32) . '..';
-        $text = mb_substr(get_field('text'), 0, 32);
+        $title = mb_substr(get_the_title(), 0, 28) . '..';
+        $author = mb_substr(get_field('forfattare'), 0, 28) . '..';
+        $text = mb_substr(get_field('text'), 0, 28);
         $text = $text == '' ? $text : $text . '..';
         $url = get_field('isbn');  //notis its is now a link!!
         $out .= <<<OUT
