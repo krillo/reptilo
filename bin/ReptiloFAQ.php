@@ -7,22 +7,27 @@
 $rfaq = new ReptiloFAQ;
 
 /**
- * The ReptiloCarousel class is based on Bootstrap 3.0 
- * 1. It adds a custom posttype called FAQ
+ * The ReptiloFAQ class is based on Bootstrap 3.0 
+ * 1. It adds a custom posttype called 'FAQ' and a taxonomy called 'faqkategori'
  * 2. Add FAQs to them  
  * 3. List all FAQs like this
- * <?php global $rfaq; if (method_exists($rfaq, 'displayFAQ')){ $rfaq->displayFAQ();} ?>
- * 
- * 4. OR use the theme pages "archive-faq.php" and "single-faq.php" for the listings
+ *   <?php global $rfaq; if (method_exists($rfaq, 'displayFAQ')){ $rfaq->displayFAQ();} ?>
+ * 4. List all FAQ categorys like this
+ *   <?php global $rfaq; if (method_exists($rfaq, 'displayFAQCategories')) {$rfaq->displayFAQCategories($mySlug);} ?>
+ *   where $mySlug is the current page slug
+ * 5. OR use the theme pages "archive-faq.php" and "single-faq.php" for the listings
  * 
  * Author: Kristian Erendi 
  * URI: http://reptilo.se 
  * Date: 2013-02-26 
+ * updated: 2014-06-06
+ * revision 1.2
  */
 class ReptiloFAQ {
 
   function __construct() {
     add_action('init', array($this, 'create_post_type'));
+    add_action('init', array($this, 'create_faq_taxonomy'));
   }
 
   /**
@@ -52,7 +57,7 @@ class ReptiloFAQ {
         'show_ui' => true,
         'show_in_menu' => true,
         'query_var' => true,
-        'rewrite' => array('slug' => 'faq'),
+        'rewrite' => array('slug' => 'alla-faq'),
         'capability_type' => 'post',
         'has_archive' => true,
         'hierarchical' => false,
@@ -63,13 +68,54 @@ class ReptiloFAQ {
   }
 
   /**
-   * Display all FAQs
+   *  Add a new taxonomy for post type  "FAQ" make it hierarchical (like categories)
+   */
+  function create_faq_taxonomy() {
+    $labels = array(
+        'name' => _x('FAQ-kategori', 'taxonomy general name'),
+        'singular_name' => _x('FAQ-kategori', 'taxonomy singular name'),
+        'search_items' => __('Sök FAQ-kategorier'),
+        'all_items' => __('Alla FAQ-kategorier'),
+        'parent_item' => __('FAQ-kategorier förälder'),
+        'parent_item_colon' => __('FAQ-kategorier förälder:'),
+        'edit_item' => __('Redigera FAQ-kategorier'),
+        'update_item' => __('Uppdatera FAQ-kategori'),
+        'add_new_item' => __('Lägg till ny FAQ-kategori'),
+        'new_item_name' => __('Ny FAQ-kategoriname'),
+        'menu_name' => __('FAQ-kategorier')
+    );
+
+    $args = array(
+        'hierarchical' => true,
+        'labels' => $labels,
+        'show_ui' => true,
+        'show_tagcloud' => true,
+        'show_admin_column' => true,
+        'query_var' => true,
+        'rewrite' => array('slug' => 'faq-kategorier'),
+        'capabilities' => array(
+            'manage_terms' => 'manage_options', //by default only admin
+            'edit_terms' => 'manage_options',
+            'delete_terms' => 'manage_options',
+            'assign_terms' => 'edit_posts'  // means administrator', 'editor', 'author', 'contributor'
+        )
+    );
+    register_taxonomy('faqkategori', array('faq'), $args);
+  }
+
+  /**
+   * Display all FAQs with taxonomy
+   * To display all FAQs - submit 'showall'
    * 
    * @global type $post
    */
-  function displayFAQ() {
+  function displayFAQ($cat) {
     global $post;
-    $args = array('post_type' => 'faq', 'orderby' => 'modified', 'order' => 'DESC');
+    if($cat != 'showall'){
+    $args = array('post_type' => 'faq', 'orderby' => 'modified', 'order' => 'DESC', 'tax_query' => array(array('taxonomy' => 'faqkategori', 'field' => 'slug','terms' => $cat)));
+    } else {
+      $args = array('post_type' => 'faq', 'orderby' => 'modified', 'order' => 'DESC');
+    }
     $loop = new WP_Query($args);
     if ($loop->have_posts()):
       $out = '<div class="panel-group" id="accordion">';
@@ -103,5 +149,22 @@ POST;
     wp_reset_query();
     echo $out;
   }
+
+  /**
+   * Returns an array of all categories for fynd
+   * "Köp" and "Sälj" are also categoriesthese are excluded
+   *  
+   */
+  function displayFAQCategories($myslug) {
+    
+    $cats = get_terms('faqkategori', array('orderby' => 'name', 'hide_empty' => 0));
+    $out = '<ul class="rep-faq-tax">';
+    foreach ($cats as $cat) {
+      $out .= '<li data-cat="' . $cat->slug . '" class=""><a href="/'.$myslug.'/?cat=' . $cat->slug . '" ><i class="fa fa-question-circle"></i>  ' . $cat->name . '</a></li>';
+    }
+    $out .= '</ul>';
+    echo $out;
+  }
+
 
 }
