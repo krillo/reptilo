@@ -93,7 +93,13 @@ function rep_GetOneCategory(){
 
 
 
-
+function check_category_family( $categories, $expected_ids ){
+  foreach( $categories as $i ){
+    if( in_array( intval( $i->category_parent ), $expected_ids ) ){
+      return true;
+    }
+  }
+}
 
 
 
