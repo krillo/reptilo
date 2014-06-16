@@ -21,6 +21,7 @@ class ReptiloCarousel {
 
   function __construct() {
     add_action('init', array($this, 'rep_create_slideshow_post_type'));
+    $this->init_acf_fields();
   }
 
   /**
@@ -37,6 +38,50 @@ class ReptiloCarousel {
         'supports' => array('title', 'thumbnail')
             )
     );
+  }
+
+  
+  
+  function init_acf_fields() {
+    if (function_exists("register_field_group")) {
+      register_field_group(array(
+          'id' => 'acf_slideshow',
+          'title' => 'Slideshow',
+          'fields' => array(
+              array(
+                  'key' => 'field_539f52dde6cdf',
+                  'label' => 'Url',
+                  'name' => 'url',
+                  'type' => 'text',
+                  'instructions' => 'Länka bilden. Glöm inte http://',
+                  'default_value' => '',
+                  'placeholder' => 'http://',
+                  'prepend' => '',
+                  'append' => '',
+                  'formatting' => 'html',
+                  'maxlength' => '',
+              ),
+          ),
+          'location' => array(
+              array(
+                  array(
+                      'param' => 'post_type',
+                      'operator' => '==',
+                      'value' => 'slideshow',
+                      'order_no' => 0,
+                      'group_no' => 0,
+                  ),
+              ),
+          ),
+          'options' => array(
+              'position' => 'normal',
+              'layout' => 'default',
+              'hide_on_screen' => array(
+              ),
+          ),
+          'menu_order' => 0,
+      ));
+    }
   }
 
   /**
@@ -68,8 +113,8 @@ class ReptiloCarousel {
         if ($indicators) {
           $indicator .= '<li data-target="#' . $carousel_id . '" data-slide-to="' . $i . '" class="' . $active . '"></li>';
         }
-        $img .= '<div class="item ' . $active . '"><a href="'.$url.'">' . get_the_post_thumbnail() . '</a></div>';
-        if($arrows){
+        $img .= '<div class="item ' . $active . '"><a href="' . $url . '">' . get_the_post_thumbnail() . '</a></div>';
+        if ($arrows) {
           $arrow .= '<a class="left carousel-control" href="#' . $carousel_id . '" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#' . $carousel_id . '" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>';
         }
         $i++;
