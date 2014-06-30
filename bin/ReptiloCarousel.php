@@ -22,7 +22,7 @@ class ReptiloCarousel {
   function __construct() {
     add_action('init', array($this, 'rep_create_slideshow_post_type'));
     $this->init_acf_fields();
-    add_shortcode('slideshow', array($this, 'rep_slideshow_shortcode'));
+    add_shortcode('rep_carousel', array($this, 'rep_carousel_shortcode'));
   }
 
   /**
@@ -89,10 +89,10 @@ class ReptiloCarousel {
 /**
  * Shortcode for a tooltip
  * Use like this: 
- * [slideshow id="reklam"]
+ * [rep_carousel id="reklam"]
  * 
  */
-function rep_slideshow_shortcode($atts) {
+function rep_carousel_shortcode($atts) {
   extract(shortcode_atts(array(
       'id' => '',
                   ), $atts));
