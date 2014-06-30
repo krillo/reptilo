@@ -133,7 +133,7 @@ function rep_carousel_shortcode($atts) {
         if ($indicators) {
           $indicator .= '<li data-target="#' . $carousel_id . '" data-slide-to="' . $i . '" class="' . $active . '"></li>';
         }
-        $img .= '<div class="item ' . $active . '"><a href="' . $url . '">' . get_the_post_thumbnail() . '</a></div>';
+        $img .= '<div class="item ' . $active . '"><a href="' . $url . '">' . get_the_post_thumbnail(get_the_ID(), 'medium') . '</a></div>';
         if ($arrows) {
           $arrow .= '<a class="left carousel-control" href="#' . $carousel_id . '" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a><a class="right carousel-control" href="#' . $carousel_id . '" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>';
         }
