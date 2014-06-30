@@ -2,7 +2,7 @@
 
 /**
  * This is the ReptiloCarousel.
- * To initialize it you just have to include this php-file
+ * To initialize it you just have to include this php-file 
  */
 $rc = new ReptiloCarousel;
 
@@ -22,6 +22,7 @@ class ReptiloCarousel {
   function __construct() {
     add_action('init', array($this, 'rep_create_slideshow_post_type'));
     $this->init_acf_fields();
+    add_shortcode('slideshow', array($this, 'rep_slideshow_shortcode'));
   }
 
   /**
@@ -84,6 +85,25 @@ class ReptiloCarousel {
     }
   }
 
+  
+/**
+ * Shortcode for a tooltip
+ * Use like this: 
+ * [slideshow id="reklam"]
+ * 
+ */
+function rep_slideshow_shortcode($atts) {
+  extract(shortcode_atts(array(
+      'id' => '',
+                  ), $atts));
+  $carousel = $this->rep_carousel($id, false, false, false);
+  return $carousel;
+}
+
+  
+  
+  
+  
   /**
    * This method prints the carousel
    * To add a url to the images then add a field (ACF) named url
@@ -92,7 +112,7 @@ class ReptiloCarousel {
    * @param string $carousel_id - this string is added att the id och the containing div
    * @param boolean $indicators - set this to true to show indicators  
    */
-  function rep_carousel($carousel_id, $indicators = true, $arrows = true) {
+  function rep_carousel($carousel_id, $indicators = true, $arrows = true, $echo = true) {
     global $post;
     $args = array('post_type' => 'Slideshow', 'posts_per_page' => 16);
     $loop = new WP_Query($args);
@@ -135,7 +155,10 @@ class ReptiloCarousel {
 CAROUSEL;
     endif;
     wp_reset_query();
-    echo $carousel;
+    if($echo){
+      echo $carousel;
+    } else {
+      return $carousel;
+    } 
   }
-
 }
