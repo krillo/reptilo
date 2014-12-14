@@ -1,4 +1,5 @@
 <?php
+
 /*
  * Description: The file contains functions commonly used by Reptilo 
  * Author: Kristian Erendi
@@ -18,6 +19,7 @@ add_action('wp_enqueue_scripts', 'reptilo_scripts');
  * Enqueue some java scripts, only on front page
  */
 function reptilo_scripts() {
+  
 }
 
 /**
@@ -47,7 +49,7 @@ add_shortcode('tooltip', 'rep_tooltip');
  * @param type $category  - the slug
  * @param type $nbr - nbr of posts to show
  */
-function printPostsPerCat($category = 'aktuellt', $nbr = 1){//, $nbrDigits = 100) {
+function printPostsPerCat($category = 'aktuellt', $nbr = 1) {//, $nbrDigits = 100) {
   global $post;
   $args = array('category_name' => $category, 'posts_per_page' => $nbr);
   $loop = new WP_Query($args);
@@ -58,9 +60,9 @@ function printPostsPerCat($category = 'aktuellt', $nbr = 1){//, $nbrDigits = 100
       $title = get_the_title();
       $guid = get_permalink();
       $img = '';
-      if (has_post_thumbnail()){
+      if (has_post_thumbnail()) {
         $img = get_the_post_thumbnail(null, 'thumbnail');
-      } 
+      }
       $readingbox .= <<<RB
 <div class="cat-container">
   <section>
@@ -113,15 +115,13 @@ MSG;
   die(); // this is required to return a proper result
 }
 
-
-
 /**
  * Pagination Bootstrap 3 style
  * 
  * @global type $wp_query
  * @param type $query
  */
-function bootstrap3_pagination($query = null) {
+function bootstrap3_pagination($query = null, $return = false) {
   global $wp_query;
   $query = $query ? $query : $wp_query;
   $big = 999999999;
@@ -136,18 +136,19 @@ function bootstrap3_pagination($query = null) {
       'next_text' => __('&raquo;'),
           )
   );
-
-  if ($query->max_num_pages > 1) :
-    ?>
-    <ul class="pagination pagination-sm">
-      <?php
-      foreach ($paginate as $page) {
-        echo '<li>' . $page . '</li>';
-      }
-      ?>
-    </ul>
-    <?php
-  endif;
+  if ($query->max_num_pages > 1){
+    $out = '<ul class="pagination pagination-sm">';
+    foreach ($paginate as $page) {
+      $out .= '<li>' . $page . '</li>';
+    }
+    $out .= '</ul>';
+  }
+  if($return == true){
+    return $out;
+  } else {
+    echo $out; 
+  }
+  
 }
 
 /**
@@ -266,4 +267,3 @@ function rep_list_pages($id, $showTree) {
   }
   return $ul;
 }
-

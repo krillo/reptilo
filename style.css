@@ -23,9 +23,6 @@ body.home{background-image: url("img/bg-gradient.png");background-repeat:  repea
 body.logged-in .navbar{margin-top: 30px;}
 .navbar-default{background-color: #d6d7d3;}
 .top-buffer { margin-top:20px;}
-a{color:#0059bd;}
-a:hover{text-decoration: underline;}
-a:visited{color:#551a8b;}
 h1{font-size: 30px;font-weight: bold;margin-top: 0;margin-bottom: 15px;}
 h2{font-size: 16px;font-weight: bold;}
 p{font-size: 14px;line-height: 18px;}

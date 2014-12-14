@@ -92,13 +92,20 @@ function rep_GetOneCategory(){
 }
 
 
-
+/**
+ * Returns true if the submitted $categories is or has a parent categoryId in the array $expected_ids
+ * 
+ * @param type $categories
+ * @param type $expected_ids
+ * @return boolean
+ */
 function check_category_family( $categories, $expected_ids ){
   foreach( $categories as $i ){
-    if( in_array( intval( $i->category_parent ), $expected_ids ) ){
+    if( in_array( intval( $i->category_parent ), $expected_ids) OR in_array( intval( $i->cat_ID ), $expected_ids ) ){
       return true;
     }
   }
+  return false; 
 }
 
 
